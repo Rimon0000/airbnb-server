@@ -28,6 +28,19 @@ async function run() {
     await client.connect();
 
 
+    const serviceCollection = client.db("airbnb").collection("services")
+
+    //category
+    app.get("/allServices/:text", async(req, res) =>{
+      console.log(req.params.text)
+      if(req.params.text == "Rooms" || req.params.text == "Countryside" || req.params.text == "Tropical" || req.params.text == "New" || req.params.text == "Cabins" || req.params.text == "Beach"){
+        const result = await serviceCollection.find({subcategory: req.params.text}).toArray()
+        res.send(result)
+        return
+      }
+      const result = await serviceCollection.find({}).toArray()
+      res.send(result)
+    })
 
     
     // Send a ping to confirm a successful connection
