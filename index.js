@@ -25,10 +25,16 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+     client.connect();
 
 
     const serviceCollection = client.db("airbnb").collection("services")
+
+    //all services
+    app.get("/allServices", async(req, res) =>{
+      const result = await serviceCollection.find({}).toArray()
+      res.send(result)
+    })
 
     //category
     app.get("/allServices/:text", async(req, res) =>{
